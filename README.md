@@ -7,3 +7,5 @@ ALEART!!!! THIS EXPOSES YOU API KEY I DON'T CARE ABOUT EXPOSING MINE SINCE ITS A
 This also supports prompt engnering so you can make so it does not say it was made by Google or is Gemini.
 
 The big 4 things you have to change to make it work are Prompt engnering Message, Name, What Version of Gemini, and API key.
+
+You can see my version at the link above. I should be unblocked by most schools.
