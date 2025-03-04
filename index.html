@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Insert your AI's name here</title> (you can insert your own favicon link here png or ico)
+  <link rel="icon" href="insertlinkhere.com" type="image/insertimageextension">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background-color: black;
+      color: white;
+      font-size: 16px; /* Increased base font size */
+    }
+
+    #chat-container {
+      height: 90vh;
+      overflow-y: auto;
+      padding: 15px; /* Increased padding */
+    }
+
+    #input-container {
+      display: flex;
+      padding: 15px; /* Increased padding */
+      border-top: 1px solid #333;
+    }
+
+    #message-input {
+      flex-grow: 1;
+      padding: 12px; /* Increased padding */
+      border: 1px solid #555;
+      border-radius: 20px; /* Increased border radius */
+      margin-right: 10px;
+      background-color: #333;
+      color: white;
+      font-size: 18px; /* Increased font size */
+    }
+
+    #send-button {
+      padding: 12px 20px; /* Increased padding */
+      background-color: pink;
+      color: black;
+      border: none;
+      border-radius: 20px; /* Increased border radius */
+      cursor: pointer;
+      font-size: 18px; /* Increased font size */
+    }
+
+    strong {
+      color: pink;
+    }
+
+    /* Mobile-first layout */
+    #input-container {
+      flex-direction: column;
+    }
+
+    #message-input {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+
+    /* Larger screen layout */
+    @media (min-width: 600px) {
+      #input-container {
+        flex-direction: row;
+      }
+
+      #message-input {
+        margin-right: 10px;
+        margin-bottom: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="chat-container"></div>
+  <div id="input-container">
+    <input type="text" id="message-input" placeholder="Type your message...">
+    <button id="send-button">Send</button>
+  </div>
+
+  <script>
+    const chatContainer = document.getElementById('chat-container');
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
+
+    function appendMessage(sender, message) {
+      const messageDiv = document.createElement('div');
+      messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+      chatContainer.appendChild(messageDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    sendButton.addEventListener('click', async () => {
+      const message = messageInput.value;
+      if (!message) return;
+      appendMessage('You', message);
+      messageInput.value = '';
+
+      try {
+        const prompt = `insert your prompt engnering message here can be blank  Message: ${message}`;
+        const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/insert-your-model:generateContent?key=insertyourapikeyhere";
+
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const reply = data.candidates[0].content.parts[0].text;
+        appendMessage('InsertyourAIsnamehere', reply);
+
+      } catch (error) {
+        console.error('Error:', error);
+        appendMessage('InsertyourAIsnamehere', 'Error communicating with InsertyourAIsnamehere.');
+      }
+    });
+
+    messageInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        sendButton.click();
+        event.preventDefault();
+      }
+    });
+
+  </script>
+</body>
+</html>
